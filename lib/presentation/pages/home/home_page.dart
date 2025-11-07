@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../data/models/user_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/attendance_provider.dart';
 import '../../widgets/common/custom_button.dart';
@@ -94,6 +95,8 @@ class _HomeView extends StatelessWidget {
                   const SizedBox(height: 24),
                   _buildTimeCard(),
                   const SizedBox(height: 24),
+                  _buildMenuGrid(context),
+                  const SizedBox(height: 24),
                   _buildAttendanceStatus(context, attendanceProvider),
                   const SizedBox(height: 24),
                   _buildActionButton(context, attendanceProvider),
@@ -168,6 +171,177 @@ class _HomeView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMenuGrid(BuildContext context) {
+    final List<Map<String, dynamic>> menuItems = [
+      {
+        'title': 'Cuti',
+        'icon': Icons.event_busy,
+        'color': const Color(0xFFE74C3C),
+        'bgColor': const Color(0xFFFEEFEE),
+        'onTap': () {
+          // Navigate to Cuti page
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Cuti page - Coming soon')),
+          );
+        },
+      },
+      {
+        'title': 'Izin',
+        'icon': Icons.event_available,
+        'color': const Color(0xFF4A90E2),
+        'bgColor': const Color(0xFFE3F2FD),
+        'onTap': () {
+          // Navigate to Izin page
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Izin page - Coming soon')),
+          );
+        },
+      },
+      {
+        'title': 'Lembur',
+        'icon': Icons.local_fire_department,
+        'color': const Color(0xFFFF9F43),
+        'bgColor': const Color(0xFFFFF3E0),
+        'onTap': () {
+          // Navigate to Lembur page
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Lembur page - Coming soon')),
+          );
+        },
+      },
+      {
+        'title': 'Daftar\nPermohonan',
+        'icon': Icons.description,
+        'color': const Color(0xFF4A90E2),
+        'bgColor': const Color(0xFFE3F2FD),
+        'onTap': () {
+          // Navigate to Daftar Permohonan page
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Daftar Permohonan page - Coming soon')),
+          );
+        },
+      },
+      {
+        'title': 'Daftar\nLembur',
+        'icon': Icons.assignment,
+        'color': const Color(0xFFFF9F43),
+        'bgColor': const Color(0xFFFFF3E0),
+        'onTap': () {
+          // Navigate to Daftar Lembur page
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Daftar Lembur page - Coming soon')),
+          );
+        },
+      },
+      {
+        'title': 'Task',
+        'icon': Icons.check_box,
+        'color': const Color(0xFF2ECC71),
+        'bgColor': const Color(0xFFE8F5E9),
+        'onTap': () {
+          // Navigate to Task page
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Task page - Coming soon')),
+          );
+        },
+      },
+      {
+        'title': 'Perintah\nLembur',
+        'icon': Icons.access_time,
+        'color': const Color(0xFF4A90E2),
+        'bgColor': const Color(0xFFE3F2FD),
+        'onTap': () {
+          // Navigate to Perintah Lembur page
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Perintah Lembur page - Coming soon')),
+          );
+        },
+      },
+      {
+        'title': 'Lainnya',
+        'icon': Icons.grid_view,
+        'color': const Color(0xFF4A5C6A),
+        'bgColor': const Color(0xFFECEFF1),
+        'onTap': () {
+          // Navigate to Lainnya page
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Lainnya page - Coming soon')),
+          );
+        },
+      },
+    ];
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.75,
+      ),
+      itemCount: menuItems.length,
+      itemBuilder: (context, index) {
+        final item = menuItems[index];
+        return _buildMenuItem(
+          title: item['title'],
+          icon: item['icon'],
+          color: item['color'],
+          bgColor: item['bgColor'],
+          onTap: item['onTap'],
+        );
+      },
+    );
+  }
+
+  Widget _buildMenuItem({
+    required String title,
+    required IconData icon,
+    required Color color,
+    required Color bgColor,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Icon(
+                icon,
+                color: color,
+                size: 24,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Flexible(
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.bodySmall.copyWith(
+                  fontSize: 10,
+                  height: 1.3,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -528,42 +702,308 @@ class _ProfileView extends StatelessWidget {
     final user = context.watch<AuthProvider>().currentUser;
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryLight.withOpacity(0.2),
-                  shape: BoxShape.circle,
+      backgroundColor: AppColors.background,
+      body: Column(
+        children: [
+          // Header dengan gradient
+          Container(
+            decoration: const BoxDecoration(
+              gradient: AppColors.primaryGradient,
+            ),
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                child: Row(
+                  children: [
+                    // Profile Picture
+                    Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        size: 36,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    // User Info
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hi, ${user?.fullName ?? 'User'}',
+                            style: AppTextStyles.h4.copyWith(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            user?.company ?? 'Company Name',
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: AppColors.white.withOpacity(0.9),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Notification Icon
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: AppColors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Stack(
+                        children: [
+                          const Center(
+                            child: Icon(
+                              Icons.notifications_outlined,
+                              color: AppColors.white,
+                              size: 24,
+                            ),
+                          ),
+                          // Notification badge
+                          Positioned(
+                            right: 8,
+                            top: 8,
+                            child: Container(
+                              width: 8,
+                              height: 8,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFFDD835),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                child: const Icon(Icons.person, size: 50, color: AppColors.primary),
               ),
-              const SizedBox(height: 16),
-              Text(user?.fullName ?? 'User', style: AppTextStyles.h3),
+            ),
+          ),
+          // Content
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildEmployeeDataCard(user),
+                  const SizedBox(height: 16),
+                  _buildMenuSection(context),
+                  const SizedBox(height: 24),
+                  _buildLogoutButton(context),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmployeeDataCard(UserModel? user) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Data Kepegawaian',
+            style: AppTextStyles.h5.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 16),
+          _buildEmployeeInfoRow(
+            'Status Karyawan',
+            user?.employeeStatus ?? '-',
+            'Jabatan',
+            user?.position ?? '-',
+          ),
+          const SizedBox(height: 12),
+          _buildEmployeeInfoRow(
+            'Unit Kerja',
+            user?.department ?? '-',
+            'Golongan',
+            user?.grade ?? '-',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmployeeInfoRow(
+    String label1,
+    String value1,
+    String label2,
+    String value2,
+  ) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
-                user?.email ?? '',
-                style: AppTextStyles.bodyMedium.copyWith(
+                label1,
+                style: AppTextStyles.bodySmall.copyWith(
                   color: AppColors.textSecondary,
                 ),
               ),
-              const SizedBox(height: 32),
-              ListTile(
-                leading: const Icon(Icons.logout, color: AppColors.error),
-                title: const Text('Logout'),
-                onTap: () async {
-                  await context.read<AuthProvider>().logout();
-                  if (context.mounted) {
-                    Navigator.pushReplacementNamed(context, '/login');
-                  }
-                },
+              const SizedBox(height: 4),
+              Text(
+                value1,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ],
           ),
         ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label2,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                value2,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMenuSection(BuildContext context) {
+    final menuItems = [
+      {
+        'icon': Icons.person_outline,
+        'title': 'Edit Profile',
+        'onTap': () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Edit Profile - Coming soon')),
+          );
+        },
+      },
+      {
+        'icon': Icons.lock_outline,
+        'title': 'Change Password',
+        'onTap': () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Change Password - Coming soon')),
+          );
+        },
+      },
+      {
+        'icon': Icons.settings_outlined,
+        'title': 'Settings',
+        'onTap': () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Settings - Coming soon')),
+          );
+        },
+      },
+    ];
+
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Column(
+        children: menuItems.map((item) {
+          return ListTile(
+            leading: Icon(
+              item['icon'] as IconData,
+              color: AppColors.primary,
+            ),
+            title: Text(
+              item['title'] as String,
+              style: AppTextStyles.bodyMedium,
+            ),
+            trailing: const Icon(
+              Icons.chevron_right,
+              color: AppColors.textSecondary,
+            ),
+            onTap: item['onTap'] as VoidCallback,
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildLogoutButton(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: ListTile(
+        leading: const Icon(Icons.logout, color: AppColors.error),
+        title: Text(
+          'Logout',
+          style: AppTextStyles.bodyMedium.copyWith(
+            color: AppColors.error,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        onTap: () async {
+          final shouldLogout = await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Logout'),
+              content: const Text('Are you sure you want to logout?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                  ),
+                  child: const Text('Logout'),
+                ),
+              ],
+            ),
+          );
+
+          if (shouldLogout == true && context.mounted) {
+            await context.read<AuthProvider>().logout();
+            if (context.mounted) {
+              Navigator.pushReplacementNamed(context, '/login');
+            }
+          }
+        },
       ),
     );
   }

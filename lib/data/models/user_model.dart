@@ -8,6 +8,13 @@ class UserModel {
   final DateTime createdAt;
   final DateTime updatedAt;
 
+  // Additional employee information
+  final String? company;
+  final String? position;
+  final String? department;
+  final String? employeeStatus;
+  final String? grade;
+
   UserModel({
     required this.id,
     required this.email,
@@ -17,6 +24,11 @@ class UserModel {
     required this.isActive,
     required this.createdAt,
     required this.updatedAt,
+    this.company,
+    this.position,
+    this.department,
+    this.employeeStatus,
+    this.grade,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -37,6 +49,11 @@ class UserModel {
           : (json['updatedAt'] != null
               ? DateTime.parse(json['updatedAt'] as String)
               : DateTime.now()),
+      company: json['company'] as String?,
+      position: json['position'] as String?,
+      department: json['department'] as String?,
+      employeeStatus: json['employee_status'] as String? ?? json['employeeStatus'] as String?,
+      grade: json['grade'] as String?,
     );
   }
 
@@ -50,6 +67,11 @@ class UserModel {
       'is_active': isActive,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
+      'company': company,
+      'position': position,
+      'department': department,
+      'employee_status': employeeStatus,
+      'grade': grade,
     };
   }
 
@@ -62,6 +84,11 @@ class UserModel {
     bool? isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? company,
+    String? position,
+    String? department,
+    String? employeeStatus,
+    String? grade,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -72,6 +99,11 @@ class UserModel {
       isActive: isActive ?? this.isActive,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      company: company ?? this.company,
+      position: position ?? this.position,
+      department: department ?? this.department,
+      employeeStatus: employeeStatus ?? this.employeeStatus,
+      grade: grade ?? this.grade,
     );
   }
 }
